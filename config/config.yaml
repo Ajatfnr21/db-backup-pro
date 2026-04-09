@@ -1,0 +1,28 @@
+# Db Backup Pro Configuration
+
+app:
+  name: "Db Backup Pro"
+  version: "2.0.0"
+  debug: false
+
+features:
+  - Multi-DB support
+  - Compression
+  - Encryption
+  - Cloud upload
+
+tech_stack:
+  - PostgreSQL
+  - MySQL
+  - MongoDB
+  - S3
+  - GCS
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+
+logging:
+  level: INFO
+  format: "%(asctime)s | %(levelname)s | %(message)s"
