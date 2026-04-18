@@ -1,12 +1,27 @@
 version: '3.8'
 
 services:
-  app:
+  backup-service:
     build: .
     ports:
       - "8000:8000"
-    volumes:
-      - ./config:/app/config:ro
     environment:
-      - LOG_LEVEL=INFO
-    restart: unless-stopped
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+    volumes:
+      - backup_data:/backups
+    command: python backup.py serve --host 0.0.0.0 --port 8000
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=testdb
+    ports:
+      - "5432:5432"
+
+volumes:
+  backup_data:
